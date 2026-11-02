@@ -1,30 +1,8 @@
-/* book objects need to be store in array 
-  function that can take argumnts, create a book from arguments, store in array, book should have unique Id (crypto.randomUUID())
-
-  Example code: 
-  const myLibrary = [];
-
-function Book() {
-  // the constructor...
-}
-
-function addBookToLibrary() {
-  // take params, create a book then store it in the array
-
-  write function that loops through array/displays each book.
-  Add new book button that will bring up a form to add a new book: author, title, pages, read status (checkbox).
-  Add a button to each book that will remove it from the array and update the display.
-  Add a button on each book’s display to change its read status.
-    To facilitate this you will want to create Book prototype function that toggles a book instance’s read status.
-
-}
-*/
 
 const addBookButton = document.getElementById("addBookBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const bookdialog = document.getElementById("bookDialog");
 
-const myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
@@ -38,6 +16,12 @@ Book.prototype.toggleReadStatus = function () {
   this.read = !this.read;
 };
 
+const myLibrary = [
+  new Book("The Hobbit", "J.R.R. Tolkien", 295, true),
+  new Book("1984", "George Orwell", 328, false)
+];
+
+
 function addBookToLibrary(title, author, pages, read) {
   const newBook = new Book(title, author, pages, read);
   myLibrary.push(newBook);
@@ -45,7 +29,7 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function displayBooks() {
-  const bookContainer = document.querySelector(".bookContainer");
+  const bookContainer = document.querySelector(".book-container");
   bookContainer.innerHTML = ""; // Clear the container before displaying books
 
   myLibrary.forEach((book) => {
@@ -94,7 +78,7 @@ addBookButton.addEventListener("click", () => {
   bookdialog.showModal();
 });
 
-deleteBookButton.addEventListener("click", () => {
+cancelBtn.addEventListener("click", () => {
   bookdialog.close();
 });
 
@@ -105,12 +89,14 @@ bookForm.addEventListener("submit", (event) => {
   const title = document.getElementById("title").value;
   const author = document.getElementById("author").value;
   const pages = document.getElementById("pages").value;
-  const read = document.getElementById("hasRead").checked;
+  const read = document.getElementById("status").checked;
 
   addBookToLibrary(title, author, pages, read);
   bookdialog.close(); // Close the dialog after adding the book
   bookForm.reset(); // Reset the form fields
 }); 
+
+displayBooks(); // Initial display of books
 
 
 
