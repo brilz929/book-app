@@ -1,4 +1,3 @@
-
 const addBookButton = document.getElementById("addBookBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const bookdialog = document.getElementById("bookDialog");
@@ -30,46 +29,59 @@ function addBookToLibrary(title, author, pages, read) {
 
 function displayBooks() {
   const bookContainer = document.querySelector(".book-container");
-  bookContainer.innerHTML = ""; // Clear the container before displaying books
+  bookContainer.innerHTML = ""; 
 
   myLibrary.forEach((book) => {
     const bookCard = document.createElement("div");
-    bookCard.classList.add("card", "book-card");
+    bookCard.classList.add("card");
 
+    const cardContent = document.createElement("div");
+    cardContent.classList.add("card__content");
+   
+    // Fixed typo: titleElement
     const titleElement = document.createElement("h3");
+    titleElement.classList.add("card__title");
     titleElement.textContent = book.title;
-    bookCard.appendChild(titleElement);
+    cardContent.appendChild(titleElement); 
 
     const authorElement = document.createElement("p");
     authorElement.classList.add("card__author");
     authorElement.textContent = `Author: ${book.author}`;
-    bookCard.appendChild(authorElement);
+    cardContent.appendChild(authorElement); 
 
     const pagesElement = document.createElement("p");
     pagesElement.classList.add("card__pages");
     pagesElement.textContent = `Pages: ${book.pages}`;
-    bookCard.appendChild(pagesElement);
+    cardContent.appendChild(pagesElement); 
+
+    const buttonGroup = document.createElement("div");
+  
+    buttonGroup.classList.add("card__actions");
+    buttonGroup.style.marginTop = "1rem";
+    buttonGroup.style.display = "flex";
+    buttonGroup.style.gap = "8px";
 
     const readStatusButton = document.createElement("button");
     readStatusButton.textContent = book.read ? "Read" : "Not Read";
     readStatusButton.addEventListener("click", () => {
-      book.toggleReadStatus(); // Toggle the read status
-      displayBooks(); // Update the display
+      book.toggleReadStatus(); 
+      displayBooks(); 
     });
-    bookCard.appendChild(readStatusButton);
-
+    buttonGroup.appendChild(readStatusButton); 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("card__delete-btn");
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => {
       const index = myLibrary.findIndex((b) => b.id === book.id);
       if (index !== -1) {
-        myLibrary.splice(index, 1); // Remove the book from the array
-        displayBooks(); // Update the display
+        myLibrary.splice(index, 1); 
+        displayBooks(); 
       }
     });
-    bookCard.appendChild(deleteButton);
-    
+    buttonGroup.appendChild(deleteButton); 
+
+    cardContent.appendChild(buttonGroup);
+    bookCard.appendChild(cardContent);
     bookContainer.appendChild(bookCard);
   });
 }
@@ -84,7 +96,7 @@ cancelBtn.addEventListener("click", () => {
 
 const bookForm = document.getElementById("bookForm");
 bookForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // Prevent form submission
+  event.preventDefault(); 
   
   const title = document.getElementById("title").value;
   const author = document.getElementById("author").value;
@@ -92,13 +104,8 @@ bookForm.addEventListener("submit", (event) => {
   const read = document.getElementById("status").checked;
 
   addBookToLibrary(title, author, pages, read);
-  bookdialog.close(); // Close the dialog after adding the book
-  bookForm.reset(); // Reset the form fields
+  bookdialog.close(); 
+  bookForm.reset(); 
 }); 
 
-displayBooks(); // Initial display of books
-
-
-
-
-
+displayBooks();
